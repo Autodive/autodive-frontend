@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.DS_Store
+src/.DS_Store
+src/views/.DS_Store
+src/.DS_Store
+
+.env.local
