@@ -17,10 +17,10 @@ We deploy an live demo of AutoDive at [http://autodive.sciwiki.cn/](http://autod
 * Done.
 ## Main Functions
 ### Resource Management
-<video src="https://github.com/Autodive/autodive-frontend/blob/main/resources/resource.mp4"></video>
+https://github.com/Autodive/autodive-frontend/blob/main/resources/resource.mp4
 
 ### Ontology Management
-<video src="https://github.com/Autodive/autodive-frontend/blob/main/resources/onto.mp4"></video>
+https://github.com/Autodive/autodive-frontend/blob/main/resources/onto.mp4
 
 ## License:
 This annotation tool is licensed under [Apache License  Version 2.0](https://github.com/Autodive/autodive-frontend/blob/master/LICENSE)
