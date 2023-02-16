@@ -7,12 +7,12 @@ We deploy an live demo of AutoDive at [http://autodive.sciwiki.cn/](http://autod
 
 ## Installation
 * install git and clone the project to your local computer.
--   git clone [https://github.com/Autodive/autodive-frontend.git](https://github.com/Autodive/autodive-frontend.git)
+    *   git clone [https://github.com/Autodive/autodive-frontend.git](https://github.com/Autodive/autodive-frontend.git)
 * install node16
--   补充命令
+    *   补充命令
 * 这个命令是干啥？
--   yarn --registry https://registry.npmmirror.com
--   yarn build
+    *   yarn --registry https://registry.npmmirror.com
+    *   yarn build
 * Access [http://127.0.0.1:xxx](http://127.0.0.1:xxx) in browser.
 * Done.
 ## Main Functions
