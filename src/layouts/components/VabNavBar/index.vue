@@ -87,6 +87,7 @@ export default {
           this.personalCenter();
           break;
         case "password":
+          // window.open('https://github.com/chuzhixin/vue-admin-beautiful')
           break;
         case "change":
           this.change();
@@ -95,10 +96,11 @@ export default {
     },
     logout() {
       this.$baseConfirm(
-        this.$t("您确定要退出") + this.$baseTitle + this.$t("吗") + "?",
+        this.$t("您确定要退出") + this.$t('title') + this.$t("吗") + "?",
         null,
         () => {
-          localStorage.clear();
+          localStorage.removeItem('user');
+          localStorage.removeItem('accessToken');
           location.reload();
         }
       );

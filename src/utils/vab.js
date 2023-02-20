@@ -1,4 +1,4 @@
-import { loadingText, messageDuration, title } from '@/config'
+import { loadingText, messageDuration } from '@/config'
 import * as lodash from 'lodash'
 import { Loading, Message, MessageBox, Notification } from 'element-ui'
 import store from '@/store'
@@ -8,12 +8,17 @@ const accessToken = store.getters['user/accessToken']
 const layout = store.getters['settings/layout']
 import i18next from 'i18next';
 const install = (Vue, opts = {}) => {
+
   Vue.prototype.$baseAccessToken = () => {
     return accessToken || getAccessToken()
   }
-  Vue.prototype.$baseTitle = (() => {
-    return title
-  })()
+
+  Object.defineProperty(Vue, '$baseTitle', {
+    get() {
+      return i18next.t('title');
+    }
+  });
+
   Vue.prototype.$baseLoading = (index, text) => {
     let loading
     if (!index) {
@@ -32,6 +37,7 @@ const install = (Vue, opts = {}) => {
     }
     return loading
   }
+
   Vue.prototype.$baseColorfullLoading = (index, text) => {
     let loading
     if (!index) {
@@ -65,16 +71,19 @@ const install = (Vue, opts = {}) => {
     }
     return loading
   }
+
   Vue.prototype.$baseMessage = (message, type) => {
     Message({
       offset: 60,
       showClose: true,
-      message: message,
+      message: i18next.t(message),
       type: type,
       dangerouslyUseHTMLString: true,
       duration: messageDuration,
     })
   }
+
+
   Vue.prototype.$baseAlert = (content, title, callback) => {
     MessageBox.alert(content, title || i18next.t('温馨提示'), {
       confirmButtonText: i18next.t('确定'),
@@ -86,6 +95,7 @@ const install = (Vue, opts = {}) => {
       },
     })
   }
+
 
   Vue.prototype.$baseConfirm = (content, title, callback1, callback2) => {
     MessageBox.confirm(content, title || i18next.t('温馨提示'), {
@@ -105,6 +115,8 @@ const install = (Vue, opts = {}) => {
         }
       })
   }
+
+
   Vue.prototype.$baseNotify = (message, title, type, position) => {
     Notification({
       title: title,
@@ -114,6 +126,7 @@ const install = (Vue, opts = {}) => {
       duration: messageDuration,
     })
   }
+
 
   Vue.prototype.$baseTableHeight = (formType) => {
     let height = window.innerHeight
@@ -132,7 +145,9 @@ const install = (Vue, opts = {}) => {
     return height
   }
 
+
   Vue.prototype.$baseLodash = lodash
+
   Vue.prototype.$baseEventBus = new Vue()
 }
 

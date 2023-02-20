@@ -51,8 +51,10 @@
 
         <el-table-column :label="$t('操作')" align="center">
       <template slot-scope="scope">
+        <tempalte v-if="scope.row.role!='1'">
          <span v-if="scope.row.role=='1'" class="editno"><img src="../../assets/editno.png">{{ $t('编辑权限') }}</span>
-         <span @click="edit(scope.row)" v-if="scope.row.role!='1'" class="edityes"><img src="../../assets/edityes.png">{{ $t('编辑权限') }}</span>
+         <span v-if="scope.row.role!='1'"  @click="edit(scope.row)" class="edityes"><img src="../../assets/edityes.png">{{ $t('编辑权限') }}</span>
+        </tempalte>
       </template>
     </el-table-column>
       </el-table>
@@ -84,7 +86,7 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('权限')+' :'">
-              <el-select v-model="formitem.role" style="width:100%" placeholder="请选择" >
+              <el-select v-model="formitem.role" style="width:100%" :placeholder="$t('请选择')" >
               <el-option :label="$t('超级管理员')" :value="1"></el-option>
                 <el-option :label="$t('管理员')" :value="2"></el-option>
                 <el-option :label="$t('标注者')" :value="3"></el-option>
@@ -110,7 +112,7 @@
             <el-input :placeholder="$t('请输入用户邮箱')" v-model="formitem2.email"></el-input>
           </el-form-item>
           <el-form-item :label="$t('权限')+' :'">
-              <el-select v-model="formitem2.role" style="width:100%" placeholder="请选择" >
+              <el-select v-model="formitem2.role" style="width:100%" :placeholder="$t('请选择')" >
                 <el-option :label="$t('管理员')" :value="2"></el-option>
                 <el-option :label="$t('标注者')" :value="3"></el-option>
               </el-select>
@@ -165,7 +167,6 @@ import { debug } from 'util';
     data() {
       return {
         tableData:[
-
         ],
         dialogVisible:false,
         dialogVisible2:false,
@@ -289,8 +290,8 @@ import { debug } from 'util';
   padding:20px;
   .qxtable {
     th .cell {color:#fff;}
-    .zc {color:#42A414;border:1px solid #42A414;border-radius: 8rem;padding:2px 10px;display:inline-block;width:60px;}
-    .jy {color:#DB555C;border:1px solid #DB555C;border-radius: 8rem;padding:2px 10px;display:inline-block;width:60px;}
+    .zc {color:#42A414;border:1px solid #42A414;border-radius: 8rem;padding:2px 10px;display:inline-block;}
+    .jy {color:#DB555C;border:1px solid #DB555C;border-radius: 8rem;padding:2px 10px;display:inline-block;}
     .editno,.edityes {color:#4848DE;cursor: pointer;display:flex;align-items: center;justify-content: center;
       img {margin-right:4px;}
     }

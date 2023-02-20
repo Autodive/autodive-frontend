@@ -125,6 +125,7 @@
           callback()
         }
       }
+
       return {
         emaildis:false,
         isGetphone: false,
@@ -132,7 +133,6 @@
         phoneCode: this.$t('获取验证码'),
         showRegister: false,
         nodeEnv: process.env.NODE_ENV,
-        title: this.$baseTitle,
         form: {
           email:''
         },
@@ -142,10 +142,12 @@
             { max: 20, trigger: 'blur', message: this.$t('最多不能超过20个字') },
             { validator: validateusername, trigger: 'blur' },
           ],
+
           password: [
             { required: true, trigger: 'blur', message: this.$t('请输入密码') },
             { validator: validatePassword, trigger: 'blur' },
           ],
+
         },
         loading: false,
         passwordType: 'password',
@@ -189,8 +191,14 @@
               email: this.form.email,
               password: this.form.password
             }
-            const { msg } = await register(param)
-            this.$baseMessage(msg, 'success')
+            try {
+              await register(param);
+              this.$baseMessage(this.$t('成功创建用户'), 'success');
+              this.$router.replace({ path: '/login', query: { username: this.form.username}});
+            } catch(e) {
+              console.error(e);
+              this.$baseMessage(this.$t('注册异常，请联系管理员'), 'error');
+            }
           }
         })
       },

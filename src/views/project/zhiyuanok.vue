@@ -12,7 +12,7 @@
     </div>
     <div style="text-align:center;padding-top:150rem;">
         <img src="../../assets/ok.png" style="width:288rem;height:288rem;">
-        <div style="font-size:22rem;color: #757575;margin-top:10rem;margin-bottom:20rem;">已完成任务指派，可前往已有资源列表查看任务情况</div>
+        <div style="font-size:22rem;color: #757575;margin-top:10rem;margin-bottom:20rem;">{{$t('已完成任务指派，可前往已有资源列表查看任务情况')}}</div>
         <el-button type="primary" @click="goback">{{ $t('查看已有资源列表') }}</el-button>
    </div>
   </div>

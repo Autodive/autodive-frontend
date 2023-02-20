@@ -1,15 +1,17 @@
 <template>
   <div class="yuliao">
     <div class="lookrw">
-      <div class="lookbtn1" @click="showrw = true">
+      <div class="lookbtn1 look_btn_style" @click="seeTaskList">
         <img src="../../../assets/jtright.png" />
-        <br />
-        <template v-for="item in $t('查看任务列表')"> {{ item }}<br /> </template>
+        <p class="rotate_text">{{$t('查看任务列表')}}</p>
+<!--        <template v-for="item in $t('查看任务列表')"> {{ item }}<br /> </template>-->
+        <!-- 查<br />看<br />任<br />务<br />列<br />表 -->
       </div>
     </div>
-    <div class="lookrw2" v-if="showrw">
+    <div class="lookrw2_outside lookrw2_animation" :style="{width: showrw ? '439px' : 0}">
+      <div class="lookrw2">
       <div class="rwdiv">
-        <div style="display: flex">
+        <div>
           <el-input
             v-model="keyword"
             prefix-icon="el-icon-search"
@@ -27,8 +29,7 @@
         </div>
         <el-table
           :data="tableData"
-          style="margin-top: 10px; width: 100%"
-          height="calc(100vh - 200rem)"
+          style="margin-top: 20px; width: 100%"
           :header-cell-style="{ background: '#F9F9F9' }"
         >
           <el-table-column prop="name" width="100" align="center" :label="$t('任务状态')">
@@ -38,7 +39,11 @@
               <div v-if="scope.row.status == 3" class="wc">{{ $t('标注完成') }}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="title" :label="$t('文献标题')"></el-table-column>
+          <el-table-column prop="title" :label="$t('文献标题')">
+            <template slot-scope="scope">
+              <TableColumnText :text="scope.row.title"></TableColumnText>
+            </template>
+          </el-table-column>
 
           <el-table-column :label="$t('操作')" width="80" align="center">
             <template slot-scope="scope">
@@ -51,246 +56,256 @@
           </el-table-column>
         </el-table>
       </div>
-      <div class="lookbtn1" @click="showrw = false">
+      <div class="lookbtn1 look_btn_style" @click="closeTaskListPopup">
         <img src="../../../assets/jtleft.png" />
-        <br />
-        <template v-for="item in $t('收起任务列表')"> {{ item }}<br /> </template>
+        <p class="rotate_text">{{$t('收起任务列表')}}</p>
+        <!--        <template v-for="item in $t('收起任务列表')"> {{ item }}<br /> </template>-->
       </div>
     </div>
-    <div class="lookbq" v-if="!lookbq">
-      <div class="lookbtn1" @click="lookbq = true">
+    </div>
+    <div class="lookbq">
+      <div class="lookbtn1 look_btn_style" @click="seeLabel">
         <img src="../../../assets/jtright.png" />
-        <br />
-        <template v-for="item in $t('查看标签')"> {{ item }}<br /> </template>
+        <p class="rotate_text">{{$t('查看标签')}}</p>
+<!--        <template v-for="item in $t('查看标签')"> {{ item }}<br /> </template>-->
       </div>
     </div>
-    <div class="bentileft" v-if="lookbq">
-      <div style="width: 430rem">
-        <ul class="tab" :class="{ tab2: act == 2 }">
-          <li :class="{ hov: act == 1 }" @click="tabclick(1)">{{ $t("实体标签") }}</li>
-          <li :class="{ hov: act == 2 }" @click="tabclick(2)">{{ $t("关系标签") }}</li>
-        </ul>
-        <div v-if="act == 1" class="borbox">
-          <div style="display: flex; align-items: center">
-            <el-input
-              prefix-icon="el-icon-search"
-              style="flex: 1"
-              v-model="keyword1"
-              :placeholder="$t('搜索标签名')"
-              @input="getlist"
-            ></el-input>
-            <el-dropdown
-              style="margin-left: 15rem; margin-right: 15rem"
-              @command="handleCommand"
-            >
-              <div style="cursor: pointer; display: flex; align-items: center">
-                <span v-if="actbq == '0'">{{ $t("所有标签名") }}</span
-                ><span v-if="actbq == '1'">{{ $t("收藏标签名") }}</span>
-                <img
-                  style="width: 12rem; height: 16rem; margin-left: 5rem"
-                  src="../../../assets/arricon.png"
-                />
-              </div>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="0">{{ $t("所有标签名") }}</el-dropdown-item>
-                <el-dropdown-item command="1">{{ $t("收藏标签名") }}</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </div>
-          <div style="display: flex">
-            <div class="scrolldiv" id="scrollindex">
-              <div class="libor" v-for="(e, i) in leftlist" :key="i" :id="e.ind">
-                <div class="libortop">{{ e.ind }}</div>
-                <div class="libormain">
-                  <el-collapse class="leftdivlist">
-                    <el-collapse-item
-                      v-for="(item, index) in e.children"
-                      :key="index"
-                      :style="{ borderColor: item.color }"
-                    >
-                      <template slot="title">
-                        <div class="leftdivlisttitle">
-                          <div class="listname">{{ item.definName }}</div>
-                          <div
-                            class="listnum"
-                            v-if="item.markList.length > 0"
-                            :style="{ background: item.color }"
-                          >
-                            {{ item.markList.length }}
+    <div class="bentileft_outside bentileft_animation" :style="{width: lookbq ? '410px' : 0}">
+      <div class="bentileft">
+        <div style="width: 328px">
+          <ul class="tab" :class="{ tab2: act == 2 }">
+            <li :class="{ hov: act == 1 }" @click="tabclick(1)">{{ $t("实体标签") }}</li>
+            <li :class="{ hov: act == 2 }" @click="tabclick(2)">{{ $t("关系标签") }}</li>
+          </ul>
+          <div v-if="act == 1" class="borbox">
+            <div style="display: flex; align-items: center">
+              <el-input
+                prefix-icon="el-icon-search"
+                style="flex: 1"
+                v-model="keyword1"
+                :placeholder="$t('搜索标签名')"
+                @input="getlist"
+              ></el-input>
+              <el-dropdown
+                style="margin-left: 15rem; margin-right: 15rem"
+                @command="handleCommand"
+              >
+                <div style="cursor: pointer; display: flex; align-items: center">
+                  <span v-if="actbq == '0'">{{ $t("所有标签名") }}</span
+                  ><span v-if="actbq == '1'">{{ $t("收藏标签名") }}</span>
+                  <img
+                    style="width: 12rem; height: 16rem; margin-left: 5rem"
+                    src="../../../assets/arricon.png"
+                  />
+                </div>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="0">{{ $t("所有标签名") }}</el-dropdown-item>
+                  <el-dropdown-item command="1">{{ $t("收藏标签名") }}</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+            <div style="display: flex">
+              <div class="scrolldiv" id="scrollindex">
+                <div class="libor" v-for="(e, i) in leftlist" :key="i" :id="e.ind">
+                  <div class="libortop">{{ e.ind }}</div>
+                  <div class="libormain">
+                    <el-collapse class="leftdivlist">
+                      <el-collapse-item
+                        v-for="(item, index) in e.children"
+                        :key="index"
+                        :style="{ borderColor: item.color }"
+                      >
+                        <template slot="title">
+                          <div class="leftdivlisttitle">
+                            <div class="listname">{{ item.definName }}</div>
+
+                            <img
+                              @click="onekeyChoose(item, 'all')"
+                              title="一键标注"
+                              src="../../../assets/icon_onekey.png"
+                              style="width: 15px; margin-right: 10px"
+                            />
+                            <div
+                              class="listnum"
+                              v-if="item.markList.length > 0"
+                              :style="{ background: item.color }"
+                            >
+                              {{ item.markList.length }}
+                            </div>
+                            <div
+                              class="liststart"
+                              :class="{ liststart2: item.collected }"
+                            ></div>
+                            <div class="listkey">
+                              {{ item.shortcutKey ? $t("快捷键") + " :" + item.shortcutKey : '' }}
+                            </div>
+                            <img
+                              @click="showTag(item, 'all')"
+                              v-if="item.isShow"
+                              src="../../../assets/closeTag.png"
+                              style="width: 20rem"
+                            />
+                            <img
+                              @click="closeTag(item, 'all')"
+                              v-else
+                              src="../../../assets/showTag.png"
+                              style="width: 20rem; height: 20rem"
+                            />
+                            <!-- <el-dropdown>
+                                            <img class="listmore" src="../../../assets/more.png">
+                                            <el-dropdown-menu slot="dropdown">
+                                              <el-dropdown-item><span @click="edit(item,index)">编辑标签</span></el-dropdown-item>
+                                              <el-dropdown-item><span @click="remove(item.id)">删除标签</span></el-dropdown-item>
+                                            </el-dropdown-menu>
+                                        </el-dropdown> -->
                           </div>
-                          <div
-                            class="liststart"
-                            :class="{ liststart2: item.collected }"
-                          ></div>
-                          <div class="listkey">
-                            {{ $t("快捷键") + " :" + item.shortcutKey }}
-                          </div>
+                        </template>
+                        <div
+                          class="leftdivinp"
+                          v-for="(n, index2) in item.markList"
+                          :key="index2"
+                        >
+                          <el-input v-model="n.name" size="mini"></el-input>
+                          <img @click="delbq(n.fId)" src="../../../assets/cz4.png" />
                           <img
-                            @click="showTag(item, 'all')"
-                            v-if="item.isShow"
+                            @click="showTag(n.fId)"
+                            v-if="n.isShow"
                             src="../../../assets/closeTag.png"
                             style="width: 20rem"
                           />
                           <img
-                            @click="closeTag(item, 'all')"
+                            @click="closeTag(n.fId)"
                             v-else
                             src="../../../assets/showTag.png"
                             style="width: 20rem; height: 20rem"
                           />
-                          <!-- <el-dropdown>
-                                          <img class="listmore" src="../../../assets/more.png">
-                                          <el-dropdown-menu slot="dropdown">
-                                            <el-dropdown-item><span @click="edit(item,index)">编辑标签</span></el-dropdown-item>
-                                            <el-dropdown-item><span @click="remove(item.id)">删除标签</span></el-dropdown-item>
-                                          </el-dropdown-menu>
-                                      </el-dropdown> -->
                         </div>
-                      </template>
-                      <div
-                        class="leftdivinp"
-                        v-for="(n, index2) in item.markList"
-                        :key="index2"
-                      >
-                        <el-input v-model="n.name" size="mini"></el-input>
-                        <img @click="delbq(n.fId)" src="../../../assets/cz4.png" />
-                        <img
-                          @click="showTag(n.fId)"
-                          v-if="n.isShow"
-                          src="../../../assets/closeTag.png"
-                          style="width: 20rem"
-                        />
-                        <img
-                          @click="closeTag(n.fId)"
-                          v-else
-                          src="../../../assets/showTag.png"
-                          style="width: 20rem; height: 20rem"
-                        />
-                      </div>
-                    </el-collapse-item>
-                  </el-collapse>
+                      </el-collapse-item>
+                    </el-collapse>
+                  </div>
                 </div>
               </div>
+              <aindex :activeId="activeId" :List="leftlist" @go="goTop"></aindex>
             </div>
-            <aindex :activeId="activeId" :List="leftlist" @go="goTop"></aindex>
           </div>
-        </div>
-        <div v-if="act == 2" class="borbox">
-          <div style="display: flex; align-items: center">
-            <el-input
-              prefix-icon="el-icon-search"
-              style="flex: 1"
-              v-model="keyword2"
-              placeholder="搜索标签名"
-              @input="getlist"
-            ></el-input>
-            <el-dropdown
-              style="margin-left: 15rem; margin-right: 15rem"
-              @command="handleCommand2"
-            >
-              <div style="cursor: pointer; display: flex; align-items: center">
-                <span v-if="actbq2 == '0'">{{ $t("所有标签名") }}</span
-                ><span v-if="actbq2 == '1'">{{ $t("收藏标签名") }}</span>
-                <img
-                  style="width: 12rem; height: 16rem; margin-left: 5rem"
-                  src="../../../assets/arricon.png"
-                />
-              </div>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="0">{{ $t("所有标签名") }}</el-dropdown-item>
-                <el-dropdown-item command="1">{{ $t("收藏标签名") }}</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </div>
-          <div class="gxborbg">
-            <div class="gxbormain">
-              <el-collapse class="leftdivlist leftdivlist2">
-                <el-collapse-item v-for="(item, index) in leftdata2" :key="index">
-                  <template slot="title">
-                    <div class="leftdivlisttitle">
-                      <div :style="{ background: item.color }" class="circolor"></div>
-                      <div class="listname">{{ item.name }}</div>
-                      <div
-                        class="listnum"
-                        v-if="item.resourcesDefinRelationDefinListList.length > 0"
-                        :style="{ background: item.color }"
-                      >
-                        {{ item.resourcesDefinRelationDefinListList.length }}
+          <div v-if="act == 2" class="borbox">
+            <div style="display: flex; align-items: center">
+              <el-input
+                prefix-icon="el-icon-search"
+                style="flex: 1"
+                v-model="keyword2"
+                placeholder="搜索标签名"
+                @input="getlist"
+              ></el-input>
+              <el-dropdown
+                style="margin-left: 15rem; margin-right: 15rem"
+                @command="handleCommand2"
+              >
+                <div style="cursor: pointer; display: flex; align-items: center">
+                  <span v-if="actbq2 == '0'">{{ $t("所有标签名") }}</span
+                  ><span v-if="actbq2 == '1'">{{ $t("收藏标签名") }}</span>
+                  <img
+                    style="width: 12rem; height: 16rem; margin-left: 5rem"
+                    src="../../../assets/arricon.png"
+                  />
+                </div>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="0">{{ $t("所有标签名") }}</el-dropdown-item>
+                  <el-dropdown-item command="1">{{ $t("收藏标签名") }}</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+            <div class="gxborbg">
+              <div class="gxbormain">
+                <el-collapse class="leftdivlist leftdivlist2">
+                  <el-collapse-item v-for="(item, index) in leftdata2" :key="index">
+                    <template slot="title">
+                      <div class="leftdivlisttitle">
+                        <div :style="{ background: item.color }" class="circolor"></div>
+                        <div class="listname">{{ item.name }}</div>
+                        <div
+                          class="listnum"
+                          v-if="item.resourcesDefinRelationDefinListList.length > 0"
+                          :style="{ background: item.color }"
+                        >
+                          {{ item.resourcesDefinRelationDefinListList.length }}
+                        </div>
+                        <div
+                          class="liststart"
+                          :class="{ liststart2: item.collected }"
+                        ></div>
+                        <div class="listkey">
+                          {{ $t("快捷键") + " :" + item.shortcutKey }}
+                        </div>
+                        <!-- <el-dropdown>
+                                            <img class="listmore" src="../../../assets/more.png">
+                                            <el-dropdown-menu slot="dropdown">
+                                              <el-dropdown-item><span @click="edit(item,index)">编辑标签</span></el-dropdown-item>
+                                              <el-dropdown-item><span @click="remove(item.id)">删除标签</span></el-dropdown-item>
+                                            </el-dropdown-menu>
+                                        </el-dropdown> -->
                       </div>
-                      <div
-                        class="liststart"
-                        :class="{ liststart2: item.collected }"
-                      ></div>
-                      <div class="listkey">
-                        {{ $t("快捷键") + " :" + item.shortcutKey }}
-                      </div>
-                      <!-- <el-dropdown>
-                                          <img class="listmore" src="../../../assets/more.png">
-                                          <el-dropdown-menu slot="dropdown">
-                                            <el-dropdown-item><span @click="edit(item,index)">编辑标签</span></el-dropdown-item>
-                                            <el-dropdown-item><span @click="remove(item.id)">删除标签</span></el-dropdown-item>
-                                          </el-dropdown-menu>
-                                      </el-dropdown> -->
-                    </div>
-                  </template>
+                    </template>
 
-                  <div
-                    class="leftguanxi"
-                    v-for="(n, index2) in item.resourcesDefinRelationDefinListList"
-                    :key="index2"
-                  >
-                    <img src="../../../assets/gxbg.png" class="gximg" />
-                    <ul class="leftguanximain">
-                      <li>
-                        <div
-                          class="bqtag"
-                          :style="{
-                            borderColor: n.resourcesDefinRelationDefinList[0].color,
-                            color: n.resourcesDefinRelationDefinList[0].color,
-                          }"
-                        >
-                          {{ n.resourcesDefinRelationDefinList[0].definName }}
-                        </div>
-                        <el-input
-                          v-model="n.resourcesDefinRelationDefinList[0].fontname"
-                          size="mini"
-                        ></el-input>
-                      </li>
-                      <li>
-                        <div
-                          class="bqtag"
-                          :style="{
-                            borderColor: n.resourcesDefinRelationDefinList[1].color,
-                            color: n.resourcesDefinRelationDefinList[1].color,
-                          }"
-                        >
-                          {{ n.resourcesDefinRelationDefinList[1].definName }}
-                        </div>
-                        <el-input
-                          v-model="n.resourcesDefinRelationDefinList[1].fontname"
-                          size="mini"
-                        ></el-input>
-                      </li>
-                    </ul>
-                    <img
-                      @click="delgx(index, index2)"
-                      src="../../../assets/cz4.png"
-                      class="gxdel"
-                    />
-                  </div>
-                </el-collapse-item>
-              </el-collapse>
+                    <div
+                      class="leftguanxi"
+                      v-for="(n, index2) in item.resourcesDefinRelationDefinListList"
+                      :key="index2"
+                    >
+                      <img src="../../../assets/gxbg.png" class="gximg" />
+                      <ul class="leftguanximain">
+                        <li>
+                          <div
+                            class="bqtag"
+                            :style="{
+                              borderColor: n.resourcesDefinRelationDefinList[0].color,
+                              color: n.resourcesDefinRelationDefinList[0].color,
+                            }"
+                          >
+                            {{ n.resourcesDefinRelationDefinList[0].definName }}
+                          </div>
+                          <el-input
+                            v-model="n.resourcesDefinRelationDefinList[0].fontname"
+                            size="mini"
+                          ></el-input>
+                        </li>
+                        <li>
+                          <div
+                            class="bqtag"
+                            :style="{
+                              borderColor: n.resourcesDefinRelationDefinList[1].color,
+                              color: n.resourcesDefinRelationDefinList[1].color,
+                            }"
+                          >
+                            {{ n.resourcesDefinRelationDefinList[1].definName }}
+                          </div>
+                          <el-input
+                            v-model="n.resourcesDefinRelationDefinList[1].fontname"
+                            size="mini"
+                          ></el-input>
+                        </li>
+                      </ul>
+                      <img
+                        @click="delgx(index, index2)"
+                        src="../../../assets/cz4.png"
+                        class="gxdel"
+                      />
+                    </div>
+                  </el-collapse-item>
+                </el-collapse>
+              </div>
+              <!-- <el-button class="btnadd" icon="el-icon-plus" type="primary" @click="add2"></el-button> -->
             </div>
-            <!-- <el-button class="btnadd" icon="el-icon-plus" type="primary" @click="add2"></el-button> -->
           </div>
         </div>
-      </div>
-      <div class="lookbtn1" @click="lookbq = false">
-        <img src="../../../assets/jtleft.png" />
-        <br />
-        <template v-for="item in $t('收起标签')"> {{ item }}<br /> </template>
+        <div class="lookbtn1 look_btn_style" @click="closeLabelPopup">
+          <img src="../../../assets/jtleft.png" />
+          <p class="rotate_text">{{$t('收起标签')}}</p>
+          <!--        <template v-for="item in $t('收起标签')"> {{ item }}<br /> </template>-->
+        </div>
       </div>
     </div>
-    <div class="bentiright">
+    <div class="bentiright" :style="{left: showrw ? '520px' : lookbq ? '457px' : '81px'}">
       <PdfZone
         :leftdata="leftdata"
         :leftdata2="leftdata2"
@@ -319,9 +334,11 @@ import { getzhiyuan } from "@/api/zhiyuan";
 import PdfZone from "./pdfZone";
 import { pinyin } from "pinyin-pro";
 import aindex from "./aIndex";
+import TableColumnText from "@/components/TableColumnText";
 import { setInterval } from "timers";
 var step = 0;
 var step2 = 1;
+// import i18next from 'i18next';
 export default {
   beforeRouteLeave(to, from, next) {
     if (step == step2) {
@@ -347,6 +364,7 @@ export default {
   components: {
     PdfZone,
     aindex,
+    TableColumnText
   },
   data() {
     return {
@@ -371,6 +389,9 @@ export default {
       keyword2: "",
       userId: "",
     };
+  },
+  watch: {
+
   },
   mounted() {
     if (this.$route.query.userId) {
@@ -433,7 +454,7 @@ export default {
     },
 
     tabpdf(row) {
-      console.log(row);
+      console.log(row)
       if (row != undefined) {
         this.$refs.pdfzone.getPdf(row);
         this.resourceId = row.id;
@@ -646,17 +667,21 @@ export default {
       if (e == "1") {
         this.leftdata = this.leftdata.filter((item) => item.collected == true);
         this.datachange();
-              } else {
+        //this.isCollected1=true
+      } else {
         this.getlist();
-              }
+        //this.isCollected1=''
+      }
     },
     handleCommand2(e) {
       this.actbq2 = e;
       if (e == "1") {
         this.leftdata2 = this.leftdata2.filter((item) => item.collected == true);
-              } else {
+        //this.isCollected2=true
+      } else {
         this.getlist();
-              }
+        //this.isCollected2=''
+      }
     },
     tabclick(e) {
       this.act = e;
@@ -702,7 +727,8 @@ export default {
         }
         return item;
       });
-            this.saveleft();
+      // }
+      this.saveleft();
       this.datachange();
     },
     datachange() {
@@ -740,19 +766,52 @@ export default {
       this.$el.querySelector('[id="' + ind + '"]').scrollIntoView();
     },
     scrollToTop() {
+      // dom滚动位置
       let scrollTop = document.querySelector("#scrollindex").scrollTop;
 
       this.leftlist.map((v, i) => {
         let offsetTop = document.getElementById(v.ind).offsetTop;
-                let scrollHeight = document.getElementById(v.ind).scrollHeight;
-                        if (scrollTop >= offsetTop && scrollTop <= offsetTop + scrollHeight) {
+        let scrollHeight = document.getElementById(v.ind).scrollHeight;
+        if (scrollTop >= offsetTop && scrollTop <= offsetTop + scrollHeight) {
           this.activeId = v.ind;
         }
       });
-            if (scrollTop <= 40) {
+      if (scrollTop <= 40) {
         this.activeId = "";
       }
     },
+
+    seeTaskList () {
+      this.showrw = true
+      this.lookbq = false
+
+      this.$refs.pdfzone.scale = 1
+      this.$refs.pdfzone.inittag();
+
+      setTimeout(() => {
+        this.$refs.pdfzone.drawScaled()
+      }, 500)
+    },
+    closeTaskListPopup () {
+      this.showrw = false
+    },
+    seeLabel () {
+      this.lookbq = true
+      this.showrw = false
+      this.$refs.pdfzone.scale = 1
+      this.$refs.pdfzone.inittag();
+      setTimeout(() => {
+        this.$refs.pdfzone.drawScaled()
+      }, 500)
+    },
+
+    closeLabelPopup () {
+      this.lookbq = false
+    },
+
+    onekeyChoose (item) {
+      console.log(item)
+    }
   },
   destroyed() {
     window.removeEventListener("scroll");
@@ -765,12 +824,11 @@ export default {
 .yuliao {
   display: flex;
   overflow: hidden;
-  margin-right: -20rem;
-  margin-bottom: -20rem;
+  margin: -20px;
   .lookrw,
   .lookbq {
     background: #f0f1fd;
-    width: 50rem;
+    width: 40px;
     border-right: 1px solid #979797;
     border-radius: 8rem;
     font-size: 16rem;
@@ -789,16 +847,16 @@ export default {
     }
   }
   .lookrw2 {
-    width: 820rem;
     display: flex;
-    align-items: center;
-    position: absolute;
-    z-index: 99;
+    width: 420px;
     background: #fff;
-    box-shadow: 4px 0px 4px 1px rgba(136, 136, 136, 0.25);
-    height: 100%;
+    padding: 20px 0 20px 20px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: calc(100vh - 120px);
     .rwdiv {
       flex: 1;
+      width: 400px;
     }
     .lookbtn1 {
       width: 50rem;
@@ -815,14 +873,14 @@ export default {
     .wks,
     .jxz,
     .wc {
-      width: 90rem;
-      height: 30rem;
-      line-height: 30rem;
+      width: 70px;
+      height: 24px;
+      line-height: 24px;
       margin: 0 auto;
       text-align: center;
       color: #d63c45;
       border: 1px solid #d63c45;
-      border-radius: 8rem;
+      border-radius: 6px;
     }
     .jxz {
       color: #4587e9;
@@ -834,16 +892,18 @@ export default {
     }
     .wxtype {
       flex: 1;
-      text-align: right;
+      margin-top: 20px;
       li {
         display: inline-block;
         border: 1px solid #acacac;
-        font-size: 16rem;
+        font-size: 14rem;
         color: #787878;
-        border-radius: 20rem;
-        margin-left: 15rem;
-        padding: 8rem 20rem;
+        border-radius: 20px;
+        margin-right: 10px;
+        padding: 0 15px;
         cursor: pointer;
+        height: 28px;
+        line-height: 28px;
       }
       li.hov {
         color: #fff;
@@ -853,12 +913,15 @@ export default {
     }
   }
   .bentileft {
-    width: 480rem;
+    width: 368px;
     align-items: center;
-        display: flex;
-        background: #fff;
+    /*position: absolute;*/
+    display: flex;
+    /*z-index: 99;*/
+    background: #fff;
     box-shadow: 4px 0px 4px 1px rgba(136, 136, 136, 0.25);
-    height: 100%;
+    padding: 20px 0;
+    top: 2px;
     .lookbtn1 {
       width: 50rem;
       text-align: center;
@@ -873,16 +936,21 @@ export default {
     }
     .tab {
       background: url(../../../assets/tabmenu.png) no-repeat;
-      height: 51rem;
+      height: 42px;
       background-size: 100% 100%;
       li {
-        font-size: 20rem;
-        width: 190rem;
+        font-size: 14px;
         display: inline-block;
         text-align: center;
-        line-height: 51rem;
+        line-height: 42px;
         cursor: pointer;
         color: #787878;
+        width: 138px;
+      }
+      li:nth-child(1){
+      }
+      li:nth-child(2){
+        margin-left: 20px;
       }
       li.hov,
       li:hover {
@@ -891,7 +959,6 @@ export default {
     }
     .tab2 {
       background: url(../../../assets/tabmenu2.png) no-repeat;
-      height: 51rem;
       background-size: 100% 100%;
     }
     .borbox {
@@ -971,16 +1038,16 @@ export default {
           background: none;
         }
         .leftdivlisttitle {
-          height: 36rem;
+          height: 28px;
           flex: 1;
           display: flex !important;
           align-items: center;
-          padding-left: 20rem;
-          padding-right: 20rem;
+          padding-left: 14px;
+          padding-right: 14px;
         }
         .el-collapse-item__header {
-          height: 36rem;
-          line-height: 36rem;
+          height: 24px;
+          line-height: 24px;
         }
         .leftdivinp {
           display: flex;
@@ -1050,7 +1117,7 @@ export default {
       }
       .scrolldiv {
         overflow: auto;
-        height: calc(100vh - 230rem);
+        height: calc(100vh - 208px);
         position: relative;
         flex: 1;
       }
@@ -1058,21 +1125,21 @@ export default {
         margin-top: 20rem;
         .libortop {
           background: url(../../../assets/bortopbg.png) no-repeat;
-          width: 380rem;
-          height: 44rem;
-          line-height: 44rem;
+          width: 245px;
+          height: 28px;
+          line-height: 28px;
           background-size: 100% 100%;
           color: #fff;
-          font-size: 20rem;
+          font-size: 14px;
           font-weight: bold;
-          text-indent: 30rem;
+          padding-left: 23px;
         }
         .libormain {
           border: 1rem solid #e2e2e2;
           border-top: 0;
-          border-radius: 0rem 0rem 8rem 8rem;
-          padding: 8rem;
-          width: 380rem;
+          border-radius: 0rem 0rem 8px 8px;
+          padding: 6px;
+          width: 308px;
           box-sizing: border-box;
         }
       }
@@ -1134,13 +1201,87 @@ export default {
     }
   }
   .bentiright {
+    position: absolute;
+    left: 81px;
+    right: 0;
+    top: 0;
+    bottom: 0;
     flex: 1;
     background: #f4f4f4;
-    height: calc(100vh - 103rem);
+    height: calc(100vh - 82px);
     border-radius: 8px 0px 0px 0px;
     border: 1px solid #ccc;
-    position: relative;
     overflow: hidden;
+    transition: all 0.5s ease-in-out;
   }
 }
+  .rotate_text{
+    white-space: nowrap;
+    font-size: 14px;
+  }
+  .look_btn_style{
+    display: flex;
+    align-items: center;
+    transform: rotate(-90deg);
+    img{
+      margin-right: 10px;
+      transform: rotate(90deg);
+    }
+  }
+
+  .bentileft_animation{
+    /*animation: animationName 1s ease-in-out;*/
+    transition: all 0.5s ease-in-out;
+  }
+  .bentileft_animation_close{
+    animation: animationName_close 1s ease-in-out;
+  }
+  .lookrw2_animation{
+    transition: all 0.5s ease-in-out;
+  }
+  .lookrw2_animation_close{
+    animation: lookrw2_animation_close 1s ease-in-out;
+  }
+  @keyframes animationName {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 368px;
+    }
+  }
+  @keyframes animationName_close {
+    0% {
+      width: 368px;
+    }
+    100% {
+      width: 0;
+    }
+  }
+  @keyframes bentileft_animation {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 710px;
+    }
+  }
+  @keyframes lookrw2_animation_close {
+    0% {
+      width: 710px;
+    }
+    100% {
+      width: 0;
+    }
+  }
+  .lookrw2_outside{
+    width: 0;
+    overflow: hidden;
+    background: #FFFFFF;
+  }
+  .bentileft_outside{
+    width: 0;
+    overflow: hidden;
+    background: #FFFFFF;
+  }
 </style>

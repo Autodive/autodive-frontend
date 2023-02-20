@@ -11,11 +11,6 @@
 
   export default {
     name: 'VabLogo',
-    data() {
-      return {
-        title: this.$baseTitle,
-      }
-    },
     computed: {
       ...mapGetters({
         logo: 'settings/logo',

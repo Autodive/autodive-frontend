@@ -6,9 +6,14 @@
           <el-button type="default" @click="delmore" size="small">{{ $t('批量删除') }}</el-button>
           <el-button type="default"  @click="zpmore" size="small">{{ $t('批量指派') }}</el-button>
           <el-input size="small" prefix-icon="el-icon-search" v-model="title" style="margin-left:12px;margin-right:12px;width:400rem" :placeholder="$t('搜索文献（模糊关键字）')"></el-input>
-          <el-button size="small" type="primary" @click="search">{{ $t('搜素') }}</el-button>
+          <el-button size="small" type="primary" @click="search">{{ $t('搜索') }}</el-button>
      </div>
-     <el-table :data="tableData" @selection-change="handleSelectionChange" height="800rem"  style="margin-top:10px;width: 100%" :header-cell-style="{background:'#F9F9F9'}">
+     <el-table
+       :data="tableData"
+       @selection-change="handleSelectionChange"
+       height="800rem"
+       style="margin-top:10px;width: 100%"
+       :header-cell-style="{background:'#F9F9F9'}">
        <el-table-column align="center"
           type="selection"
           width="55">
@@ -20,18 +25,36 @@
                 <div v-if="scope.row.status==3" class="wc">{{ $t('标注完成') }}</div>
             </template>
         </el-table-column>
-        <el-table-column width="300" prop="doi" align="center" label="DOI" ></el-table-column>
-        <el-table-column prop="title" :label="$t('文献标题')" ></el-table-column>
+        <el-table-column width="300" prop="doi" align="center" label="DOI" show-overflow-tooltip></el-table-column>
+        <el-table-column
+          width="220"
+          prop="title"
+          :label="$t('文献标题')">
+          <template slot-scope="scope">
+            <el-tooltip
+              :content="scope.row.title"
+              placement="bottom"
+              effect="light"
+              popper-class="enj_tooltip_style">
+              <TableColumnText :text="scope.row.title"></TableColumnText>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column align="center" label="" width="50">
           <template slot-scope="scope"><img src="../../assets/lookicon.png" @click="openurl(scope.row.previewUrl)" style="cursor:pointer;width:20rem;height:20rem;"></template>
         </el-table-column>
-       <el-table-column prop="authors"  :label="$t('作者')" ></el-table-column>
-        <el-table-column prop="keywords" width="100" align="center" :label="$t('关键词')" >
+       <el-table-column prop="authors"  :label="$t('作者')" show-overflow-tooltip></el-table-column>
+        <el-table-column
+          width="220"
+          prop="keywords"
+          align="center"
+          :label="$t('关键词')" >
           <template slot-scope="scope">
-            <el-tooltip class="item" effect="dark" placement="bottom">
-              <div slot="content" style="max-width:400rem;">{{scope.row.keywords}}</div>
-               <span>{{keywordevent(scope.row.keywords)}}</span>
-            </el-tooltip>
+<!--            <el-tooltip class="item" effect="dark" placement="bottom">-->
+<!--              <div slot="content" style="max-width:400rem;">{{scope.row.keywords}}</div>-->
+<!--               <span>{{keywordevent(scope.row.keywords)}}</span>-->
+<!--            </el-tooltip>-->
+            <TableColumnText :text="scope.row.keywords"></TableColumnText>
           </template>
         </el-table-column>
         <el-table-column :label="$t('标注者')"  align="center">
@@ -118,7 +141,11 @@ import {getqx} from '@/api/quanxian'
 import { thirteenBitTimestamp } from '../../utils';
 import { baseURL} from '@/config'
 // import i18next from 'i18next';
+import TableColumnText from "../../components/TableColumnText";
 export default {
+  components: {
+    TableColumnText
+  },
   data() {
     return {
       tableData:[ ],
@@ -271,7 +298,16 @@ export default {
   .btntop {
     margin-top:30rem;
   }
-  .wks,.jxz,.wc {width:90rem;height:30rem;line-height: 30rem;margin:0 auto;text-align:center;color:#D63C45;border:1px solid #D63C45;border-radius: 8rem;}
+  .wks,.jxz,.wc {
+    min-width: 70px;
+    height: 24px;
+    line-height: 24px;
+    margin: 0 auto;
+    text-align:center;
+    color: #D63C45;
+    border:1px solid #D63C45;
+    border-radius: 8rem;
+  }
   .jxz {color:#4587E9;border:1px solid #4587E9;}
   .wc {color:#42A414;border:1px solid #42A414;}
   .bzz {display:flex;align-items: center; justify-content: center;
