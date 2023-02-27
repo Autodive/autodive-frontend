@@ -16,11 +16,26 @@ We deploy an live demo of AutoDive at [http://autodive.sciwiki.cn/](http://autod
 * Access [http://127.0.0.1:xxx](http://127.0.0.1:xxx) in browser.
 * Done.
 ## Main Functions
-### Resource Management
-https://github.com/Autodive/autodive-frontend/blob/main/resources/resource.mp4
+### Create Project
+![1-create](resources/1-create.gif)
 
-### Ontology Management
-https://github.com/Autodive/autodive-frontend/blob/main/resources/onto.mp4
+### Task Assign
+![2-mission](resources/2-mission.gif)
+
+### Create Ontology
+![3-create](resources/3-create.gif)
+
+### Manual Annotation
+![4-mannual](resources/4-mannual.gif)
+
+### Auto Annotation
+![5-auto](resources/5-auto.gif)
+
+### Corpus Export
+![6-export](resources/6-export.gif)
+
+### Project Review
+![7-review](resources/7-review.gif)
 
 ## License:
 This annotation tool is licensed under [Apache License  Version 2.0](https://github.com/Autodive/autodive-frontend/blob/master/LICENSE)
