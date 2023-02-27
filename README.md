@@ -6,14 +6,15 @@ We introduce AutoDive, an integrated onsite scientific literature annotation too
 We deploy an live demo of AutoDive at [http://autodive.sciwiki.cn/](http://autodive.sciwiki.cn/)(test username:  *test*, password: *autodive*) or watch our demostration video on Youtube at []().
 
 ## Installation
-* install git and clone the project to your local computer.
+* Install git and clone the project to your local computer.
     *   git clone [https://github.com/Autodive/autodive-frontend.git](https://github.com/Autodive/autodive-frontend.git)
-* install node16
-    *   补充命令
-* 这个命令是干啥？
-    *   yarn --registry https://registry.npmmirror.com
-    *   yarn build
-* Access [http://127.0.0.1:xxx](http://127.0.0.1:xxx) in browser.
+* Make sure your computer has node installed. Node16 is recommended.
+* Install npm dependencies and build project.
+    *   npm install
+    *   npm build
+* Test in browser (Access to our public back-end services)
+    *   npm run serve
+* Access [http://127.0.0.1:8081](http://127.0.0.1:8081) in browser.
 * Done.
 ## Main Functions
 ### Create Project

@@ -4,11 +4,13 @@
       <div class="pdftop">
         <div class="pdfym">{{$t('页码')+' :'}} + {{page}}/ {{ numPages ? numPages : "∞" }}</div>
         <div class="pdfname">
-          <div v-if="pdftitle != ''" style="line-height: 20rem">{{ pdftitle }}.pdf</div>
+          <div v-if="pdftitle != ''" style="line-height: 20px">{{ pdftitle }}.pdf</div>
         </div>
-        <img class="pdftopimg" @click="jia" src="../../../assets/fd.png" />
-        <div class="pdfsf">{{ formattedZoom }} %</div>
-        <img class="pdftopimg" @click="jian" src="../../../assets/sx.png" />
+        <div class="pdf_top_right">
+          <img class="pdftopimg" @click="jia" src="../../../assets/fd.png" />
+          <div class="pdfsf">{{ formattedZoom }} %</div>
+          <img class="pdftopimg" @click="jian" src="../../../assets/sx.png" />
+        </div>
       </div>
       <div class="pdfmain">
         <div class="czlbg" id="leftgjl">
@@ -30,6 +32,7 @@
           <div id="pdfvuer" ref="container">
             <div id="buttons"></div>
             <pdf
+              ref="pdfDom"
               :src="pdfdata"
               v-for="i in numPages"
               :key="i"
@@ -38,7 +41,7 @@
               :scale.sync="scale"
               v-if="pdfshow"
               :annotation="true"
-              :resize="false"
+              :resize="resize"
               @link-clicked="handle_pdf_link"
             >
               <template slot="loading"> loading content here... </template>
@@ -75,7 +78,8 @@
 
 <script>
 import pdfvuer from "pdfvuer";
-import "pdfjs-dist/build/pdf.worker.entry"; import "pdfvuer/dist/pdfvuer.css";
+import "pdfjs-dist/build/pdf.worker.entry"; // not needed since v1.9.1
+import "pdfvuer/dist/pdfvuer.css";
 import { debuglog } from "util";
 import { complete } from "@/api/yuliao";
 
@@ -83,7 +87,8 @@ import request from "@/utils/request";
 import { baseURL } from "@/config";
 
 const INLINE_TAGS = new Set([
-    "a",
+  // Inline text semantics
+  "a",
   "abbr",
   "b",
   "bdi",
@@ -139,7 +144,7 @@ export default {
         this.robotProcessing = true;
         try {
           if (!this.robotLoaded) {
-                        const resp = await request({
+             const resp = await request({
               url: "/robot/by-model-and-doi",
               method: "GET",
               params: { model: this.project.modelId, doi: this.doi },
@@ -155,7 +160,7 @@ export default {
             this.robotLoaded = true;
           }
 
-                    for (const anno of this.robotAnnos) {
+          for (const anno of this.robotAnnos) {
             const selection = window.getSelection();
             selection.removeAllRanges();
             const targetRanges = this.getRangeOfRobotOntology(anno.sen, anno.text);
@@ -168,7 +173,7 @@ export default {
             }
           }
 
-                    for (const rel of this.robotRelations) {
+          for (const rel of this.robotRelations) {
             const ldItem = this.leftdata2.find((d) => d.name === rel.relation);
             const fromAnno = this.robotAnnos.find((d) => d.figure === rel.fromFigure);
             const toAnno = this.robotAnnos.find((d) => d.figure === rel.toFigure);
@@ -230,6 +235,7 @@ export default {
       project: null,
       newformattedZoom: 100,
       newdataarry: [],
+      resize: false
     };
   },
   computed: {
@@ -238,7 +244,8 @@ export default {
     },
   },
   mounted() {
-        this.listener = this.createEventListener();
+    // this.getPdf()
+    this.listener = this.createEventListener();
     document.addEventListener("keypress", this.listener);
     let that = this;
     document.addEventListener(
@@ -304,6 +311,7 @@ export default {
   methods: {
     jian() {
       this.scale -= this.scale > 0.2 ? 0.1 : 0;
+      console.log(this.scale)
       this.inittag();
     },
     jia() {
@@ -339,7 +347,7 @@ export default {
       return prefont + selectedText + nextfont;
     },
     okbtn() {
-                                          this.$emit("getok", "saveok");
+      this.$emit("getok", "saveok");
     },
     zcbtn() {
       this.$emit("getzc", "savezc");
@@ -356,7 +364,8 @@ export default {
 
       this.robotAnnoShow = false;
       this.$refs.maskContainer.innerHTML = "";
-            const hintBgColor = "#ffffff";
+      // const container = document.getElementById('pdfvuer');
+      const hintBgColor = "#ffffff";
       const hintColor = "#333";
       if(arry[0].markList.length!=0){
         this.newformattedZoom = JSON.parse(arry[0].markList[0].container).formattedZoom;
@@ -365,6 +374,7 @@ export default {
         const maskColor = arry[i].color;
         const hintBorderColor = arry[i].color;
         for (let j = 0; j < arry[i].markList.length; j++) {
+          // if(arry[i].tags[j]){
 
           const hintEl = document.createElement("div");
           Object.assign(hintEl.style, {
@@ -387,7 +397,8 @@ export default {
             backgroundColor: hintBgColor,
             border: "1px solid " + hintBorderColor,
             borderLeft: "5px solid " + hintBorderColor,
-                      });
+            // transform:'scale('+that.formattedZoom/(JSON.parse(arry[i].markList[j].container).formattedZoom)+')'
+          });
           hintEl.innerHTML =
             '<span onclick=addgx("' +
             (arry[i].markList[j].shortcutKey || "") +
@@ -447,7 +458,8 @@ export default {
               arry[i].markList[j].y;
             this.$refs.maskContainer.append(maskEl);
           }
-                  }
+          // }
+        }
       }
     },
     guanxi(item) {
@@ -457,7 +469,8 @@ export default {
     delbq(id) {
       let newarr = document.getElementsByClassName(id);
       for (var i = newarr.length - 1; i >= 0; i--) {
-        newarr[i].parentNode.removeChild(newarr[i]);       }
+        newarr[i].parentNode.removeChild(newarr[i]); //全部删除
+      }
     },
     handle_pdf_link: function (params) {
       var page = document.getElementById(String(params.pageNumber));
@@ -468,7 +481,6 @@ export default {
       this.project = resp.data;
     },
     getPdf(row) {
-      console.log(row);
       if (row != undefined) {
         this.getProjectInfo(row.projectId);
         this.doi = row.doi;
@@ -482,6 +494,7 @@ export default {
           row.url.startsWith("/profile") ? baseURL + row.url : row.url
         );
         self.pdfdata.then((pdf) => {
+          console.log(pdf)
           submitRobotTask(row.doi, pdf, row.projectId);
           self.numPages = pdf.numPages;
           var pages = [];
@@ -489,7 +502,8 @@ export default {
 
           return Promise.all(
             pages.map(function (num) {
-                            var div1 = document.createElement("div");
+              // create a div for each page and build a small canvas for it
+              var div1 = document.createElement("div");
               div1.id = "slt" + num;
               div1.onclick = function () {
                 var page = document.getElementById(num);
@@ -539,7 +553,8 @@ export default {
         divarry[i].classList.remove("pagehov");
       }
       document.getElementById("slt" + self.page).classList.add("pagehov");
-          },
+      // document.getElementById('slt'+self.page).scrollIntoView();
+    },
     makeThumb(page) {
       var vp = page.getViewport({ scale: 1 });
       var canvas = document.createElement("canvas");
@@ -585,10 +600,12 @@ export default {
       const hintColor = "#333";
       const selection = window.getSelection();
       for (let i = 0; i < selection.rangeCount; i++) {
+        console.log(selection)
         const range = selection.getRangeAt(i);
         const clientRects = range.getClientRects();
         const rects = clientRects.length == 0 ? this.rects : clientRects;
-                const firstRect = rects[0];
+        // 增加提示
+        const firstRect = rects[0];
         console.log(rects);
         const hintEl = document.createElement("div");
         if (tag) {
@@ -647,7 +664,7 @@ export default {
           }),
           definitionId: checkobj.definitionId,
         });
-                for (let rect of rects) {
+        for (let rect of rects) {
           const maskEl = document.createElement("div");
           Object.assign(maskEl.style, {
             position: "absolute",
@@ -666,7 +683,7 @@ export default {
     getRangeOfRobotOntology(sen, text) {
       const pdfEl = this.$refs.container;
 
-            let words = sen.split(" ");
+      let words = sen.split(" ");
       let wordIdx = 0;
 
       const itor = document.createNodeIterator(pdfEl, NodeFilter.SHOW_TEXT, {
@@ -690,11 +707,10 @@ export default {
         n = itor.nextNode();
       }
 
-
-            const elTexts = els.map((d) => d.textContent);
+      const elTexts = els.map((d) => d.textContent);
       const termRanges = indexOfTerm(elTexts, text);
 
-            return termRanges.map(({ startTerm, startOffset, endTerm, endOffset }) => {
+      return termRanges.map(({ startTerm, startOffset, endTerm, endOffset }) => {
         const range = new Range();
         range.setStart(els[startTerm].firstChild, startOffset);
         range.setEnd(els[endTerm].firstChild, endOffset);
@@ -737,12 +753,19 @@ export default {
       for (const tagEl of pdfEl.querySelectorAll('[data-tag="robot"]')) {
         this.delbq(tagEl.className);
       }
-            for (const ldItem of this.leftdata2) {
+      for (const ldItem of this.leftdata2) {
         ldItem.resourcesDefinRelationDefinListList = ldItem.resourcesDefinRelationDefinListList.filter(
           (d) => d.tag !== "robot"
         );
       }
     },
+
+    drawScaled () {
+      let pdfDomList = this.$refs.pdfDom
+      pdfDomList.forEach(item => {
+        item.drawScaled('page-width')
+      })
+    }
   },
 };
 
@@ -801,36 +824,41 @@ async function pdfDataToText(pdf) {
   flex: 1;
   .pdftop {
     background: #fff;
-    height: 80rem;
     line-height: 80rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     font-size: 20rem;
     color: #595959;
-    padding-left: 15rem;
-    padding-right: 15rem;
+    padding: 15px;
     border-bottom: 1rem solid #979797;
     .pdfym {
       width: 160rem;
     }
     .pdfname {
       font-weight: bold;
-      flex: 1;
+      max-width: 600px;
+      word-break: break-all;
     }
-    .pdftopimg {
-      cursor: pointer;
-      width: 18rem;
-    }
-    .pdfsf {
-      width: 90rem;
-      text-align: center;
-      font-size: 18rem;
+    .pdf_top_right{
+      display: flex;
+      align-items: center;
+      .pdftopimg {
+        cursor: pointer;
+        width: 15px;
+        height: 15px;
+      }
+      .pdfsf {
+        width: 90rem;
+        text-align: center;
+        font-size: 18rem;
+      }
     }
   }
   .pdfmain {
     display: flex;
     align-items: flex-start;
-    height: calc(100% - 80rem);
+    height: calc(100% - 100px);
     .czlbg {
       background: #fff;
       width: 60rem;
@@ -865,7 +893,9 @@ async function pdfDataToText(pdf) {
       height: 100%;
       flex: 1;
       overflow: scroll;
-                }
+      // .page {
+      // }
+    }
   }
   .gbclose {
     font-size: 14px;

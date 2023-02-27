@@ -37,7 +37,7 @@
           </el-col>
       </el-row>
       <el-row style="margin-top:40rem;" :gutter="30">
-        <el-col :span="7">
+        <el-col :span="7" :lg="7" :md="12" :xs="24" :sm="24">
             <div class="titlediv">
                 <span class="titleicon"></span>{{ $t('标签标注情况') }}
                 <div style="position:absolute;right:0;top:0;">
@@ -49,14 +49,14 @@
             </div>
             <div id="echart" style="width:100%;height:450rem;"></div>
         </el-col>
-        <el-col :span="10">
+        <el-col :span="10" :lg="10" :md="12" :xs="24" :sm="24">
             <div class="titlediv"><span class="titleicon"></span>{{ $t('单个标签标注情况') }}
                 <div style="position:absolute;right:0;top:0;display:flex;" >
                   <el-radio-group v-model="radio2" size="mini" @change="getbqlist">
                     <el-radio-button label="1">{{ $t('实体标签') }}</el-radio-button>
                     <el-radio-button label="2">{{ $t('关系标签') }}</el-radio-button>
                   </el-radio-group>
-                   <el-select v-model="bqselect" size="mini" @change="getSingleLabelData" filterable style="width:200rem;margin-left:15rem;" placeholder="请选择">
+                   <el-select v-model="bqselect" size="mini" @change="getSingleLabelData" filterable style="width:200rem;margin-left:15rem;" :placeholder="$t('请选择')">
                         <el-option
                           v-for="item in bqlist"
                           :key="item.id"
@@ -68,7 +68,7 @@
             </div>
             <div id="echart2" style="width:100%;height:450rem;"></div>
         </el-col>
-        <el-col :span="7">
+        <el-col :span="7" :lg="7" :md="12" :xs="24" :sm="24">
             <div class="titlediv"><span class="titleicon"></span>{{ $t('本周统计情况') }}</div>
             <div id="echart3" style="width:100%;height:450rem;"></div>
         </el-col>
@@ -260,7 +260,7 @@ export default {
           },
           angleAxis: {
     type: 'category',
-    data:pieChat.xdata,
+    data:pieChat.xdata.map(this.$t),
     //data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
   },
   radiusAxis: {
@@ -310,8 +310,8 @@ export default {
 
 <style lang="scss">
 .proind {padding-left:20rem;
-  .titlediv {font-size:22rem;color:#6B6B6B;font-weight: bold;position: relative;}
-  .titleicon {background:#575BCA;width:4rem;height:24rem;margin-right:6rem;display:block;float:left;}
+  .titlediv {font-size: 16px;color:#6B6B6B;font-weight: bold;position: relative;line-height:18px;}
+  .titleicon {background:#575BCA;width:3px;height:18px;margin-right:6rem;display:block;float:left;}
   .cirbg {width:218rem;height:218rem;border:20rem solid #EFF0F3;background:#fff;border-radius: 50%;position: relative;margin:0 auto;}
   .cirdiv {background: url(../../assets/cir.png) no-repeat;width:226rem;height:226rem;background-size:100% 100%;animation:fadenum 3s linear infinite;position: absolute;top:-4rem;left:-4rem;}
   .cirmain {

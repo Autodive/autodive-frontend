@@ -14,7 +14,7 @@
               class="liststart"
               :class="{ liststart2: item.collected }"
             ></div>
-            <div class="listkey">{{$t('快捷键')+' :'+ item.shortcutKey }}</div>
+            <div class="listkey">{{item.shortcutKey ? $t('快捷键')+' :'+ item.shortcutKey : '' }}</div>
             <el-dropdown v-if="role != 3">
               <img class="listmore" src="../../assets/more.png" />
               <el-dropdown-menu slot="dropdown">
@@ -46,7 +46,7 @@
               class="liststart"
               :class="{ liststart2: item.collected }"
             ></div>
-            <div class="listkey">{{$t('快捷键')+' :' +item.shortcutKey }}</div>
+            <div class="listkey">{{item.shortcutKey ? $t('快捷键')+' :' + item.shortcutKey : '' }}</div>
             <el-dropdown v-if="role != 3">
               <img class="listmore" src="../../assets/more.png" />
               <el-dropdown-menu slot="dropdown">
@@ -104,7 +104,11 @@
       :visible.sync="dialogVisible"
       width="35%"
     >
-      <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+      <el-form
+        ref="form"
+        :rules="rules"
+        :model="form"
+        label-width="140px">
         <el-form-item :label="$t('名称')" prop="definName">
           <el-input v-model="form.definName"></el-input>
         </el-form-item>
@@ -459,20 +463,20 @@ export default {
         relationId: "",
       },
       rules: {
-        definName: [{ required: true, message: "请输入名称", trigger: "blur" }],
+        definName: [{ required: true, message: this.$t('请输入名称'), trigger: "blur" }],
         //  shortcutKey: [
         //   { required: true, message: '请输入快捷键', trigger: 'blur' }
         // ],
       },
       index: 0,
       rules2: {
-        name: [{ required: true, message: "请输入名称", trigger: "blur" }],
+        name: [{ required: true, message: this.$t('请输入名称'), trigger: "blur" }],
         //  shortcutKey: [
         //   { required: true, message: '请输入快捷键', trigger: 'blur' }
         // ],
       },
       rules3: {
-        relationId: [{ required: true, message: "请选择关系", trigger: "change" }],
+        relationId: [{ required: true, message: this.$t('请选择关系'), trigger: "change" }],
       },
       index2: 0,
       gxlist: [],
@@ -833,8 +837,7 @@ export default {
             opacity: 0.9,
           },
         },
-        // 默认边不同状态下的样式集合
-        edgeStateStyles: {
+                edgeStateStyles: {
           "edgeState:default": {
             stroke: "#aab7c3",
           },
@@ -848,7 +851,6 @@ export default {
           },
         },
         modes: {
-          // 支持的 behavior
           default: [
             "drag-canvas",
             "drag-shadow-node",
@@ -870,20 +872,19 @@ export default {
           ],
         },
         plugins: [grid, toolbar],
-        // ... 其他G6原生入参
+
       });
 
       this.graph = new G6.Graph(cfg);
       this.getlist(1);
     },
-    // 初始化图事件
+
     initGraphEvent() {
       this.graph.on("node:dragend", (e) => {
         e.item.getOutEdges().forEach((edge) => {
           edge.clearStates("edgeState");
         });
-        //console.log(e.target.cfg.className)
-        // console.log(e.item.get('model'))
+
         if (e.target.cfg.className) {
           var newform = e.item.get("model").form;
           newform.coodx = e.x;
@@ -896,7 +897,7 @@ export default {
         }
       });
       this.graph.on("click", (ev) => {
-        // 监听节点点击事件
+
         this.evt = ev.item;
         const shape = ev.target;
         if (ev.item) {
@@ -924,93 +925,7 @@ export default {
         }
       });
 
-      // this.graph.on('on-node-mouseenter', e => {
-      //   if(e && e.item) {
-      //     e.item.getOutEdges().forEach(edge => {
-      //       edge.clearStates('edgeState');
-      //       edge.setState('edgeState', 'hover');
-      //     });
-      //   }
-      // });
 
-      // // 鼠标拖拽到画布外时特殊处理
-      // this.graph.on('mousedown', e => {
-      //   this.isMouseDown = true;
-      // });
-      // this.graph.on('mouseup', e => {
-      //   this.isMouseDown = false;
-      // });
-      // this.graph.on('canvas:mouseleave', e => {
-      //   this.graph.getNodes().forEach(x => {
-      //     const group = x.getContainer();
-
-      //     group.clearAnchor();
-      //     x.clearStates('anchorActived');
-      //   });
-      // });
-
-      // this.graph.on('on-node-mousemove', e => {
-      //   if (e && e.item) {
-      //     this.tooltip = e.item.get('model').id;
-      //     this.left = e.clientX + 40;
-      //     this.top = e.clientY - 20;
-      //   }
-      // });
-
-      // this.graph.on('on-node-mouseleave', e => {
-      //   if (e && e.item) {
-      //     this.tooltip = '';
-      //     if(e && e.item) {
-      //       e.item.getOutEdges().forEach(edge => {
-      //         edge.clearStates('edgeState');
-      //       });
-      //     }
-      //   }
-      // });
-
-      // this.graph.on('before-node-removed', ({ target, callback }) => {
-      //   console.log(target);
-      //   setTimeout(() => {
-      //     // 确认提示
-      //     callback(true);
-      //   }, 1000);
-      // });
-
-      // this.graph.on('after-node-dblclick', e => {
-      //   if (e && e.item) {
-      //     console.log(e.item);
-      //   }
-      // });
-
-      // this.graph.on('after-edge-selected', e => {
-      //   this.configVisible = !!e;
-
-      //   if (e && e.item) {
-      //     this.config = e.item.get('model').id;
-
-      //     this.graph.updateItem(e.item, {
-      //       // shape: 'line-edge',
-      //       style: {
-      //         radius:    10,
-      //         lineWidth: 2,
-      //       },
-      //     });
-      //   }
-      // });
-
-      // this.graph.on('on-edge-mousemove', e => {
-      //   if (e && e.item) {
-      //     this.tooltip = e.item.get('model').label;
-      //     this.left = e.clientX + 40;
-      //     this.top = e.clientY - 20;
-      //   }
-      // });
-
-      // this.graph.on('on-edge-mouseleave', e => {
-      //   if (e && e.item) {
-      //     this.tooltip = '';
-      //   }
-      // });
 
       this.graph.on(
         "before-edge-add",
@@ -1110,7 +1025,7 @@ export default {
             labelCfg: {
               autoRotate: true,
               style: {
-                fill: "#ffffff", // 文本颜色
+                fill: "#ffffff",
                 background: {
                   fill: item.relationColor,
                   padding: [5, 5, 3, 5],
@@ -1121,21 +1036,15 @@ export default {
           };
         }),
       };
-      this.graph.read(data); // 读取数据
+      this.graph.read(data);
       this.graph.render();
-      // setTimeout(() => {
-      //   this.graph.updateLayout({
-      //     type: 'force',               // 布局名称
-      //     preventOverlap: true,        // 布局参数，是否允许重叠
-      //     nodeSize: 40,                // 布局参数，节点大小，用于判断节点是否重叠
-      //     linkDistance: 100            // 布局参数，边长
-      //   });
-      // }, 100);
+
       if (!this.autoHtml) {
         let innerHtml = document.getElementsByClassName("g6-component-toolbar")[0]
           .innerHTML;
-        let str =
-          '<li code="Fruchterman" id="Fruchterman" onclick="fruchterman()" style="cusor:pointer;">自动排版</li>';
+        let text = this.$t("自动排版")
+        let textWidth = this.$t("自动排版") === "自动排版" ? 35 : 58
+        let str = '<li code="Fruchterman" id="Fruchterman" onclick="fruchterman()" style="cusor:pointer; width: ' + textWidth + 'px;">' + this.$t("自动排版") + '</li>';
         document.getElementsByClassName("g6-component-toolbar")[0].innerHTML =
           innerHtml + str;
         document.getElementsByClassName("g6-component-toolbar")[0].style.left = "475px";
@@ -1147,20 +1056,16 @@ export default {
     fruchterman() {
       setTimeout(() => {
         this.graph.updateLayout({
-          // type: 'force',               // 布局名称
-          // preventOverlap: true,        // 布局参数，是否允许重叠
-          // nodeSize: 40,                // 布局参数，节点大小，用于判断节点是否重叠
-          // linkDistance: 700,
-          // collideStrength: [0, 8]            // 布局参数，边长
+
           type: "radial",
-          // center: [200, 200], // 可选，默认为图的中心
-          linkDistance: 500, // 可选，边长
-          maxIteration: 10000, // 可选
-          // focusNode: "node11", // 可选
-          unitRadius: 1000, // 可选
-          preventOverlap: true, // 可选，必须配合 nodeSize
-          nodeSize: 100, // 可选
-          strictRadial: false, // 可选
+
+          linkDistance: 500,
+          maxIteration: 10000,
+
+          unitRadius: 1000,
+          preventOverlap: true,
+          nodeSize: 100,
+          strictRadial: false,
         });
       }, 100);
     },

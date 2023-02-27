@@ -140,7 +140,7 @@
                 <div class="xmjdbg">
                   <div class="xmjd1" :style="{ width: scope.row.progress }"></div>
                 </div>
-                <div style="margin-left: 10rem">{{ scope.row.progress }}%</div>
+                <div style="margin-left: 10rem">{{ scope.row.progress * 100 }}%</div>
               </div>
             </template>
           </el-table-column>
@@ -208,7 +208,8 @@ export default {
       getindex({ id: this.$route.query.id }).then((res) => {
         console.log(res.data);
         this.indexdata = res.data;
-        this.getcharts3(res.data.pieChat);
+        // this.getcharts3(res.data.pieChat);
+        this.getcharts3(res.data.allLabel);
       });
     },
     getAllLabelData() {
@@ -332,65 +333,35 @@ export default {
     },
     getcharts3(pieChat) {
       var myChart = this.$echarts.init(document.getElementById("echart3"));
-      var colorList = ["#4753DC", "#858fcf"];
+      const data = pieChat.xdata
+        .map((d, i) => [d, pieChat.ydata[i]])
+        .sort((a, b) => a[1] - b[1]);
+      console.log(data);
       var option = {
-        color: colorList,
         tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "shadow",
-          },
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
-        grid: {
-          top: "10%",
-          left: "3%",
-          right: "4%",
-          bottom: "0%",
-          containLabel: true,
+        legend: {
+          show: false,
+          data: data.map(d => d[0]),
         },
-        angleAxis: {
-          type: "category",
-          data: pieChat.xdata,
-          //data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+        toolbox: {
+          show: false,
         },
-        radiusAxis: {
-          axisTick: {
-            show: false, // 不显示坐标轴刻度线
-          },
-          axisLine: {
-            show: false, // 不显示坐标轴线
-          },
-          axisLabel: {
-            show: false, // 不显示坐标轴上的文字
-          },
-        },
-        polar: {},
         series: [
           {
-            type: "bar",
-            data: pieChat.completeData,
-            coordinateSystem: "polar",
-            name: this.$t('已完成'),
-            stack: "a",
-            emphasis: {
-              focus: "series",
+            name: this.$t('标注统计情况'),
+            type: 'pie',
+            radius: [20, 140],
+            center: ['50%', '50%'],
+            roseType: 'area',
+            itemStyle: {
+              borderRadius: 5
             },
-          },
-          {
-            type: "bar",
-            data: pieChat.noCompleteData,
-            coordinateSystem: "polar",
-            name: this.$t('未完成'),
-            stack: "a",
-            emphasis: {
-              focus: "series",
-            },
-          },
-        ],
-        legend: {
-          show: true,
-          data: [this.$t('已完成'), this.$t('未完成')],
-        },
+            data:  data.map(d => ({ value: d[1], name: d[0] })),
+          }
+        ]
       };
       myChart.setOption(option);
     },

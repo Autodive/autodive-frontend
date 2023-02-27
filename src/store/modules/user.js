@@ -6,7 +6,8 @@ import {
   setAccessToken,
 } from '@/utils/accessToken'
 import { resetRouter } from '@/router'
-import { title, tokenName } from '@/config'
+import { tokenName } from '@/config'
+import i18next from 'i18next'
 
 const state = {
   accessToken: getAccessToken(),
@@ -49,15 +50,15 @@ const actions = {
       const hour = new Date().getHours()
       const thisTime =
         hour < 8
-          ? '早上好'
+          ? i18next.t('早上好')
           : hour <= 11
-          ? '上午好'
+          ? i18next.t('上午好')
           : hour <= 13
-          ? '中午好'
+          ? i18next.t('中午好')
           : hour < 18
-          ? '下午好'
-          : '晚上好'
-      Vue.prototype.$baseNotify(`欢迎登录${title}`, `${thisTime}！`)
+          ? i18next.t('下午好')
+          : i18next.t('晚上好')
+      Vue.prototype.$baseNotify(`${i18next.t('欢迎登录')} ${i18next.t('title')}`, `${thisTime}！`)
     } else {
       Vue.prototype.$baseMessage(
         `登录接口异常，未正确返回${tokenName}...`,
@@ -66,12 +67,15 @@ const actions = {
     }
   },
   async getUserInfo({ commit, state }) {
+
     let permissions
-   // if (permissions && username && Array.isArray(permissions)) {
+
       commit('setPermissions',  ['admin'])
       commit('setUsername', 'admin')
       commit('setAvatar', 'https://i.gtimg.cn/club/item/face/img/2/15922_100.gif')
+
       return permissions
+
   },
   async logout({ dispatch }) {
     await logout(state.accessToken)

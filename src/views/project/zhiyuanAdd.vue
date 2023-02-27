@@ -137,12 +137,14 @@
         /></template>
       </el-table-column>
       <el-table-column prop="authors" :label="$t('作者')"></el-table-column>
-      <el-table-column prop="keywords" width="100" align="center" :label="$t('关键词')">
+      <el-table-column
+        width="220" prop="keywords" align="center" :label="$t('关键词')">
         <template slot-scope="scope">
-          <el-tooltip class="item" effect="dark" placement="bottom">
-            <div slot="content" style="max-width: 400rem">{{ scope.row.keywords }}</div>
-            <span>{{ keywordevent(scope.row.keywords) }}</span>
-          </el-tooltip>
+<!--          <el-tooltip class="item" effect="dark" placement="bottom">-->
+<!--            <div slot="content" style="max-width: 400rem">{{ scope.row.keywords }}</div>-->
+<!--            <span>{{ keywordevent(scope.row.keywords) }}</span>-->
+<!--          </el-tooltip>-->
+          <TableColumnText :text="scope.row.keywords"></TableColumnText>
         </template>
       </el-table-column>
       <el-table-column :label="$t('类型')" prop="type" width="100" align="center">
@@ -162,7 +164,7 @@
       :header-cell-style="{ background: '#F9F9F9' }"
     >
       <el-table-column align="center" type="selection" width="55"> </el-table-column>
-      <el-table-column prop="name" width="100" align="center" label="任务状态">
+      <el-table-column prop="name" width="100" align="center" :label="$t('任务状态')">
         <template slot-scope="scope">
           <div v-if="scope.row.status == 1" class="wks">{{ $t('未开始') }}</div>
           <div v-if="scope.row.status == 2" class="jxz">{{ $t('进行中') }}</div>
@@ -184,7 +186,15 @@
             style="cursor: pointer; width: 20rem; height: 20rem"
         /></template>
       </el-table-column>
-      <el-table-column prop="authors" :label="$t('作者')"></el-table-column>
+      <el-table-column width="220" prop="authors" :label="$t('作者')">
+        <template slot-scope="scope">
+          <!--          <el-tooltip class="item" effect="dark" placement="bottom">-->
+          <!--            <div slot="content" style="max-width: 400rem">{{ scope.row.keywords }}</div>-->
+          <!--            <span>{{ keywordevent(scope.row.keywords) }}</span>-->
+          <!--          </el-tooltip>-->
+          <TableColumnText :text="scope.row.authors"></TableColumnText>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="keywords"
         align="center"
@@ -270,7 +280,7 @@
         ref="form"
         :rules="rules"
         :model="form"
-        label-width="80px"
+        label-width="140px"
         style="margin-top: 15rem"
       >
         <el-form-item :label="$t('文献标题')" prop="title">
@@ -430,8 +440,10 @@ import {
 import { getqx } from "@/api/quanxian";
 import { itemIntersectByLine } from "@antv/g6-core/lib/util/math";
 import { baseURL } from "@/config/setting.config";
+import TableColumnText from '@/components/TableColumnText'
 // import i18next from 'i18next';
 export default {
+  components: {TableColumnText},
   data() {
     return {
       baseURL,
@@ -903,7 +915,7 @@ export default {
       .step1,
       .step2,
       .step3 {
-        width: 70rem;
+        width: 152rem;
         text-align: center;
         white-space: nowrap;
       }

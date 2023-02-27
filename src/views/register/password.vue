@@ -126,38 +126,18 @@
           callback()
         }
       }
-      // const validatePhone = (rule, value, callback) => {
-      //   if (!isPhone(value)) {
-      //     callback(new Error('请输入正确的手机号'))
-      //   } else {
-      //     callback()
-      //   }
-      // }
       return {
         isGetphone: false,
         getPhoneIntval: null,
         phoneCode: this.$t('获取验证码'),
         showRegister: false,
         nodeEnv: process.env.NODE_ENV,
-        title: this.$baseTitle,
         form: {},
         registerRules: {
-          // username: [
-          //   { required: true, trigger: 'blur', message: '请输入用户名' },
-          //   { max: 20, trigger: 'blur', message: '最多不能超过20个字' },
-          //   { validator: validateusername, trigger: 'blur' },
-          // ],
-          // phone: [
-          //   { required: true, trigger: 'blur', message: '请输入手机号码' },
-          //   { validator: validatePhone, trigger: 'blur' },
-          // ],
           password: [
             { required: true, trigger: 'blur', message: this.$t('请输入密码') },
             { validator: validatePassword, trigger: 'blur' },
           ],
-          // phoneCode: [
-          //   { required: true, trigger: 'blur', message: '请输入手机验证码' },
-          // ],
         },
         loading: false,
         passwordType: 'password',

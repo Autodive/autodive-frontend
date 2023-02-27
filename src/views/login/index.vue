@@ -13,7 +13,7 @@
           label-position="left"
         >
           <div class="title">{{ $t("欢迎登录") }}</div>
-          <div class="title-tips">{{ title }}！</div>
+          <div class="title-tips">{{ $t('title') }}！</div>
           <el-form-item style="margin-top: 40px" prop="userName">
             <span class="svg-container svg-container-admin">
               <vab-icon :icon="['fas', 'user']" />
@@ -64,7 +64,7 @@
             <span
               @click="dialogVisible = true"
               style="margin-left: 20px; cursor: pointer; color: #575bca"
-              >找回密码</span
+              >{{$t("找回密码")}}</span
             >
           </div>
         </el-form>
@@ -132,7 +132,6 @@ export default {
       dialogVisible: false,
       email: "",
       nodeEnv: process.env.NODE_ENV,
-      title: this.$baseTitle,
       form: {
         userName: "",
         password: "",
@@ -173,7 +172,7 @@ export default {
     document.body.style.overflow = "auto";
   },
   mounted() {
-    this.form.userName = "";
+    this.form.userName = this.$route?.query?.username || '';
     this.form.password = "";
   },
   methods: {

@@ -122,7 +122,6 @@ export default {
         case "personalCenter":
           break;
         case "password":
-          // window.open('https://github.com/chuzhixin/vue-admin-beautiful')
           break;
         case "change":
           this.change();
@@ -130,8 +129,9 @@ export default {
       }
     },
     logout() {
-      this.$baseConfirm(this.$t('您确定要退出') + this.$baseTitle + this.$t('吗')+"?", null, () => {
-        localStorage.clear();
+      this.$baseConfirm(this.$t('您确定要退出') + this.$t('title') + this.$t('吗')+"?", null, () => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('accessToken');
         location.reload();
       });
     },
@@ -146,17 +146,19 @@ export default {
 
 <style lang="scss">
 .main {
+  min-width: 1200px;
   .top {
-    height: 100rem;
+    height: 80px;
     display: flex;
     align-items: center;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
     .logo {
-      width: 100rem;
+      width: 100px;
       margin-left: 10rem;
       margin-right: 20rem;
     }
     .routefont {
-      font-size: 22rem;
+      font-size: 15px;
       flex: 1;
       cursor: pointer;
     }
@@ -168,20 +170,19 @@ export default {
   }
   .mainbox {
     display: flex;
-    overflow: hidden;
   }
   .left {
-    width: 112rem;
-    height: calc(100vh - 100rem);
+    width: 80px;
+    height: calc(100vh - 80px);
     background: linear-gradient(142deg, #3f3ce8 0%, #555bcc 34%, #575bca 51%);
     padding-top: 20rem;
     box-sizing: border-box;
-    border-top-right-radius: 10rem;
+    /*border-top-right-radius: 10rem;*/
     li {
-      width: 113rem;
-      height: 140rem;
+      /*width: 113rem;*/
+      height: 80px;
       color: #fff;
-      font-size: 18rem;
+      font-size: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -189,89 +190,93 @@ export default {
       .menuicon1 {
         background: url(../../assets/m1.png) no-repeat center top;
         width: 100%;
-        height: 33rem;
-        background-size: 33rem 33rem;
-        margin-bottom: 10rem;
+        height: 24px;
+        background-size: 24px 24px;
+        margin-bottom: 10px;
       }
       .menuicon2 {
         background: url(../../assets/m2.png) no-repeat center top;
         width: 100%;
-        height: 33rem;
-        background-size: 33rem 33rem;
-        margin-bottom: 10rem;
+        height: 24px;
+        background-size: 24px 24px;
+        margin-bottom: 10px;
       }
       .menuicon3 {
         background: url(../../assets/m3.png) no-repeat center top;
         width: 100%;
-        height: 33rem;
-        background-size: 33rem 33rem;
-        margin-bottom: 10rem;
+        height: 24px;
+        background-size: 24px 24px;
+        margin-bottom: 10px;
       }
       .menuicon4 {
         background: url(../../assets/m4.png) no-repeat center top;
         width: 100%;
-        height: 33rem;
-        background-size: 33rem 33rem;
-        margin-bottom: 10rem;
+        height: 24px;
+        background-size: 24px 24px;
+        margin-bottom: 10px;
       }
       .menuicon5 {
         background: url(../../assets/m5.png) no-repeat center top;
         width: 100%;
-        height: 33rem;
-        background-size: 33rem 33rem;
-        margin-bottom: 10rem;
+        height: 24px;
+        background-size: 24px 24px;
+        margin-bottom: 10px;
       }
     }
     li.hov,
     li:hover {
-      width: 113rem;
-      height: 140rem;
+      /*width: 113rem;*/
+      /*height: 140rem;*/
       background: url(../../assets/hovbg.png) no-repeat top right;
-      background-size: 113rem 140rem;
+      background-size: 100% 100%;
       color: #504899;
       .menuicon1 {
         background: url(../../assets/m1hov.png) no-repeat center top;
         width: 100%;
-        height: 33rem;
-        background-size: 33rem 33rem;
-        margin-bottom: 10rem;
+        height: 24px;
+        background-size: 24px 24px;
+        margin-bottom: 10px;
       }
       .menuicon2 {
         background: url(../../assets/m2hov.png) no-repeat center top;
         width: 100%;
-        height: 33rem;
-        background-size: 33rem 33rem;
-        margin-bottom: 10rem;
+        height: 24px;
+        background-size: 24px 24px;
+        margin-bottom: 10px;
       }
       .menuicon3 {
         background: url(../../assets/m3hov.png) no-repeat center top;
         width: 100%;
-        height: 33rem;
-        background-size: 33rem 33rem;
-        margin-bottom: 10rem;
+        height: 24px;
+        background-size: 24px 24px;
+        margin-bottom: 10px;
       }
       .menuicon4 {
         background: url(../../assets/m4hov.png) no-repeat center top;
         width: 100%;
-        height: 33rem;
-        background-size: 33rem 33rem;
-        margin-bottom: 10rem;
+        height: 24px;
+        background-size: 24px 24px;
+        margin-bottom: 10px;
       }
       .menuicon5 {
         background: url(../../assets/m5hov.png) no-repeat center top;
         width: 100%;
-        height: 33rem;
-        background-size: 33rem 33rem;
-        margin-bottom: 10rem;
+        height: 24px;
+        background-size: 24px 24px;
+        margin-bottom: 10px;
       }
     }
   }
   .right {
-    flex: 1;
-    padding: 0rem 20rem 20rem 20rem;
-    height: calc(100vh - 100rem);
+    padding: 20px 20px 20px 20px;
+    height: calc(100vh - 80px);
     box-sizing: border-box;
     overflow: auto;
+    position: absolute;
+    top: 80px;
+    left: 80px;
+    right: 0;
+    bottom: 0;
   }
 }
 .menusub {
