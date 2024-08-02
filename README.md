@@ -6,7 +6,7 @@ They are:
 * Resource Management
 * Ontology Management
 * Onsite Multimodal Annotation
-* Active Learning Module
+* Activate Learning Module
 * Statistic View
 
 ## Online Demo
