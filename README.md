@@ -1,13 +1,13 @@
 # AutoDive+: An Adaptive Model Enhanced Multimodal Online Annotation Tool
 
 In previous work, we presented AutoDive, an integrated onsite scientific literature annotation tool, which can make scientists annotate directly on PDF documents. We further extend AutoDive's capabilities by introducing multimodal annotation module, high-value resource ranking module and independently deployed model community, and present an adaptive model enhance multimodal onsite annotation tool: AutoDive+. This tool provides 6 core functions of annotation that support the whole lifecycle of corpus generation. 
-They are 
-    * Project Management
-    * Resource Management
-    * Ontology Management
-    * Onsite Multimodal Annotation
-    * Active Learning Module
-    * Statistic View.
+They are: 
+* Project Management
+* Resource Management
+* Ontology Management
+* Onsite Multimodal Annotation
+* Active Learning Module
+* Statistic View
 
 ## Online Demo
 We deploy an live demo of AutoDive at [https://autodive.c4.eplus.org.cn/](https://autodive.c4.eplus.org.cn/)(test username:  *test*, password: *autodive*) or watch our demostration video on [this site](https://autodive.c4.eplus.org.cn/introVideo/introduce.mp4).
