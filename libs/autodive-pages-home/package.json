@@ -1,0 +1,11 @@
+{
+  "name": "autodive-pages-home",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.js",
+  "peerDependencies": {
+    "vue": "*",
+    "element-plus": "*"
+  },
+  "type": "module"
+}

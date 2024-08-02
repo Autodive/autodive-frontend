@@ -1,0 +1,9 @@
+{
+  "name": "autodive-fe-monolith",
+  "description": "Frontend monolith project for autodive",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ]
+}

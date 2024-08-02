@@ -1,0 +1,47 @@
+$base-color-default: #575BCA;
+$base-color-rich: #403DE7;
+$base-z-index: 999;
+$base-menu-background: linear-gradient(142deg, #002329 0%, #002329 34%, #002329 51%);
+$base-menu-color: #ffffff;
+$base-menu-color-active: #575BCA;
+$base-menu-background-active: none;
+$base-title-color: #fff;
+$base-font-size-small: 12px;
+$base-font-size-default: 14px;
+$base-font-size-big: 16px;
+$base-font-size-bigger: 18px;
+$base-font-size-max: 22px;
+$base-font-color: #606266;
+$base-color-blue: $base-color-default;
+$base-color-green: #13ce66;
+$base-color-white: #fff;
+$base-color-black: #000;
+$base-color-yellow: #ffba00;
+$base-color-orange: #ff6700;
+$base-color-red: #ff4d4f;
+$base-color-gray: rgba(0, 0, 0, 0.65);
+$base-main-width: 1279px;
+$base-border-radius: 2px;
+$base-border-color: #dcdfe6;
+$base-input-height: 32px;
+$base-padding: 20px;
+$base-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+$base-top-bar-height: 65px;
+$base-logo-height: 75px;
+$base-nav-bar-height: 100px;
+$base-tabs-bar-height: 55px;
+$base-tag-item-height: 34px;
+$base-menu-item-height: 140px;
+$base-app-main-height: calc(100vh - #{$base-nav-bar-height} - #{$base-tabs-bar-height} - #{$base-padding} - #{$base-padding} - 55px - 55px);
+$base-left-menu-width: 112px;
+$base-right-content-width: calc(100% - #{$base-left-menu-width});
+$base-left-menu-width-min: 65px;
+$base-right-content-width-min: calc(100% - #{$base-left-menu-width-min});
+$base-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+$base-transition-time: 0.3s;
+
+:export {
+  menu-color: $base-menu-color;
+  menu-color-active: $base-menu-color-active;
+  menu-background: $base-menu-background;
+}

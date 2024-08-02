@@ -1,0 +1,184 @@
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.el-pagination {
+  justify-content: center;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.outdivstyle {
+  padding: 0 !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+
+  .el-dialog__header {
+    background: linear-gradient(138deg, $base-color-rich 0%, $base-color-blue 100%);
+    border-radius: 14px 14px 0 0;
+    height: 52px;
+    line-height: 52px;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    .el-dialog__title {
+      font-size: 20px;
+      color: #fff;
+      padding-left: 15px;
+    }
+
+    .el-dialog__headerbtn {
+      font-size: 24px;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .el-dialog__headerbtn .el-dialog__close {
+      color: #fff;
+    }
+  }
+
+  .el-dialog__body {
+    padding: 25px 25px 30px;
+  }
+}
+
+.outdivstyle2 {
+  margin-top: 5vh !important;
+
+  .el-dialog__body {
+    padding: 0px !important;
+    border: 0px !important;
+
+    iframe {
+      border: 0px;
+      display: block;
+      width: 100%;
+      height: 800px;
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+  height: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px rgba(97, 184, 179, 0.1);
+  background: #ccc;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgba(87, 175, 187, 0.1);
+  border-radius: 10px;
+  background: #f5f5f5;
+}
+
+.side-bar-container {
+  box-shadow: none !important;
+}
+
+.enj_tooltip_style {
+  width: 200px;
+}
+
+#nprogress {
+  position: fixed;
+  z-index: $base-z-index;
+
+  .bar {
+    background: $base-color-blue !important;
+  }
+
+  .peg {
+    box-shadow: 0 0 10px $base-color-blue, 0 0 5px $base-color-blue !important;
+  }
+}
+
+.el-button--primary {
+  background: rgb(80, 72, 153);
+  border-color: rgb(80, 72, 153);
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+  background: rgb(80, 72, 153);
+  border-color: rgb(80, 72, 153);
+}
+
+.el-checkbox__input.is-checked + .el-checkbox__label {
+  color: rgb(80, 72, 153);
+}
+
+.el-checkbox__input.is-checked .el-checkbox__inner {
+  background: rgb(80, 72, 153);
+  border-color: rgb(80, 72, 153);
+}
+
+.el-pager li.active {
+  color: rgb(80, 72, 153);
+}
+
+.el-tag--dark {
+  background: rgb(80, 72, 153);
+  border-color: rgb(80, 72, 153);
+}
+
+.el-tag--dark.el-tag--info {
+  background-color: #909399;
+  border-color: #909399;
+  color: white;
+}
+
+.el-radio__input.is-checked + .el-radio__label {
+  color: rgb(80, 72, 153);
+}
+
+.el-radio__input.is-checked .el-radio__inner {
+  background: rgb(80, 72, 153);
+  border-color: rgb(80, 72, 153);
+}
+
+.el-radio__inner:hover {
+  border-color: rgb(80, 72, 153);
+}
+
+.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+  background: rgb(80, 72, 153);
+  border-color: rgb(80, 72, 153);
+}
+
+.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+  box-shadow: -1px 0 0 0 rgb(80, 72, 153);
+}
+
+.el-radio-button__inner:hover {
+  color: rgb(80, 72, 153);
+}
+
+.el-button--small {
+  height: 30px;
+  padding: 9px 15px;
+}

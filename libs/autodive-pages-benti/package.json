@@ -1,0 +1,14 @@
+{
+  "name": "autodive-pages-benti",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.js",
+  "peerDependencies": {
+    "vue": "*",
+    "element-plus": "*",
+    "@antv/g6": "*",
+    "vue-i18n": "*",
+    "autodive-store-auth": "workspace:*"
+  },
+  "type": "module"
+}

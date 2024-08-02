@@ -1,0 +1,17 @@
+{
+  "isImportResource": true,
+  "logo": "logo.svg",
+  "userName": "",
+  "password": "",  
+  "requestMapping": [
+    {
+      "match": "^/extr",
+      "replace": "/extr"
+    },
+    {
+      "match": "(.*)$",
+      "replace": "/app$1"
+    }
+  ],
+  "enableAllEelation": true
+}

@@ -1,0 +1,14 @@
+{
+    "name": "autodive-store-auth",
+    "version": "0.0.0",
+    "private": true,
+    "main": "src",
+    "peerDependencies": {
+        "pinia": "*",
+        "vue": "*",
+        "vue-i18n": "*",
+        "element-plus": "*",
+        "jsencrypt": "*"
+    },
+    "type": "module"
+}

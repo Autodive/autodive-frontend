@@ -1,0 +1,19 @@
+{
+  "name": "autodive-pages-annotation-toos",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.js",
+  "peerDependencies": {
+    "axios": "*",
+    "vue": "*",
+    "element-plus": "*",
+    "@antv/g6": "*",
+    "vue-i18n": "*",
+    "vuedraggable": "*",
+    "papaparse": "*",
+    "pinyin-pro": "*",
+    "pdfjs-dist": "*",
+    "autodive-store-auth": "workspace:*"
+  },
+  "type": "module"
+}

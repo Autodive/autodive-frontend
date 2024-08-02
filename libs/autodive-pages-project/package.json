@@ -1,0 +1,13 @@
+{
+  "name": "autodive-pages-project",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.js",
+  "peerDependencies": {
+    "vue": "*",
+    "dayjs": "*",
+    "element-plus": "*",
+    "autodive-store-auth": "workspace:*"
+  },
+  "type": "module"
+}

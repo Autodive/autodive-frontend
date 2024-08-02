@@ -1,0 +1,12 @@
+{
+  "name": "autodive-pages-publish-data",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.js",
+  "peerDependencies": {
+    "vue": "*",
+    "element-plus": "*",
+    "autodive-store-auth": "workspace:*"
+  },
+  "type": "module"
+}

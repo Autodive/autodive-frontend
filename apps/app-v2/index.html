@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    <%= VUE_APP_TITLE %>
+  </title>
+  <meta name="keywords" content="" />
+  <meta name="description" content="<%= VUE_APP_TITLE %>" />
+  <meta name="author" content="<%= VUE_APP_AUTHOR %>" />
+</head>
+
+<body>
+  <noscript>
+    非常抱歉鉴于安全考量,您无法查看<%= VUE_APP_TITLE %>源代码
+  </noscript>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+  <script>
+    /^http(s*):\/\//.test(location.href) ||
+      alert("基于vue开发的项目需要部署到服务器下访问");
+  </script>
+</body>
+
+</html>

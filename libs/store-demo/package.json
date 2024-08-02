@@ -1,0 +1,11 @@
+{
+    "name": "store-demo",
+    "version": "0.0.0",
+    "private": true,
+    "main": "src",
+    "peerDependencies": {
+        "pinia": "*",
+        "vue": "*"
+    },
+    "type": "module"
+}

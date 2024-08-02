@@ -1,0 +1,13 @@
+{
+  "name": "autodive-pages-resource",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.js",
+  "peerDependencies": {
+    "autodive-store-auth": "workspace:*",
+    "bibtex-js-parser": "*",
+    "element-plus": "*",
+    "vue": "*"
+  },
+  "type": "module"
+}
